@@ -1,0 +1,54 @@
+services:
+  soft-redirections_backend:
+    build: ./backend
+#    user: 65648:513
+    command: >
+      sh -c "npm install -g nodemon && ${DOCKER_COMMAND:-npm run start}"
+    container_name: soft-redirections_backend
+    environment:
+      - SR_ENV=development
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/usr/src/app
+    networks:
+      - soft-redirections-dev
+
+  # soft-redirections_strapi
+
+  soft-redirections_frontend:
+    build: ./frontend
+    command: >
+      sh -c "${DOCKER_COMMAND:-npm run dev}"
+    container_name: soft-redirections_frontend
+    environment:
+      - SR_ENV=development
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./frontend:/usr/src/app
+    networks:
+      - soft-redirections-dev
+
+  soft-redirections_postgres:
+    image: postgres:14.3-alpine
+    container_name: soft-redirections_postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=soft-redirections-dev
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - soft-redirections-dev
+
+networks:
+  soft-redirections-dev:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.32.0.0/24
+          gateway: 172.32.0.1
