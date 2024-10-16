@@ -18,3 +18,13 @@ backend :
 RAF backend : 
 - installer graphql ?
 - codegen (si graphql)
+
+
+frontend : 
+- .env
+- docker run npm ci
+
+RAF frontend :
+- design
+- home
+- vue full

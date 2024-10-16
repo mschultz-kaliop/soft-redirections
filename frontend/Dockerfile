@@ -4,11 +4,10 @@ WORKDIR /usr/src/app
 
 EXPOSE 3000
 
-# Bundle app source
 COPY . /usr/src/app/
 
 RUN apk update && apk add bash
 
-RUN npm i
+RUN npm ci
 
-CMD npm run build && npm run start
+CMD npm run build && npm run dev
