@@ -1,20 +1,12 @@
 FROM node:18.18.0-alpine
+
 WORKDIR /usr/src/app
 
-# Bundle app source
-COPY . /usr/src/app/
+COPY package*.json ./
+RUN npm ci
 
-RUN apk update && apk add bash
+COPY . .
 
-RUN npm i
+EXPOSE 8080
+CMD [ "npm", "run", "dev" ]
 
-RUN npm install --location=global nodemon
-
-# RUN npm install --location=global contentful-cli
-
-# RUN npm install sharp
-# RUN npm link sharp
-
-EXPOSE 4000
-
-CMD [ "npm", "run", "start" ]

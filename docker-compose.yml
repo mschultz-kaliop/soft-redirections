@@ -1,19 +1,4 @@
 services:
-#  soft-redirections_backend:
-#    build: ./backend
-##    user: 65648:513
-#    command: >
-#      sh -c "npm install -g nodemon && ${DOCKER_COMMAND:-npm run start}"
-#    container_name: soft-redirections_backend
-#    environment:
-#      - SR_ENV=development
-#    ports:
-#      - "4000:4000"
-#    volumes:
-#      - ./backend:/usr/src/app
-#    networks:
-#      - soft-redirections-dev
-
 #  soft-redirections_frontend:
 #    build: ./frontend
 #    command: >
@@ -53,6 +38,17 @@ services:
       - soft-redirections-network
     depends_on:
       - soft-redirections-cms-postgres
+
+  soft-redirections-backend:
+    container_name: soft-redirections-backend
+    build: ./backend
+    env_file: ./backend/.env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/usr/src/app
+    networks:
+      - soft-redirections-network
 
 volumes:
   soft-redirections-sql-data:
