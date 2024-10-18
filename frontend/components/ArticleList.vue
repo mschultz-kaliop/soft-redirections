@@ -11,7 +11,7 @@
   <section class="article-list text-center px-24 py-24">
     <h1 class="text-5xl font-bold">ARTICLE LIST</h1>
 
-    <div class="flex justify-evenly mt-24">
+    <div class="flex justify-evenly mt-24 px-24">
       <div
         v-for="article in articles"
         :key="article.id"
@@ -21,7 +21,9 @@
           <h2 class="card-title">{{ article.title }}</h2>
           <p>Slug : {{ article.slug }}</p>
           <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+            <NuxtLink :to="{ name: 'article-slug', params: { slug: article.slug } }">
+              <button class="btn btn-secondary">Read it</button>
+            </NuxtLink>
           </div>
         </div>
       </div>

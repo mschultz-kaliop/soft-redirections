@@ -29,12 +29,26 @@ const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDataSourc
 // Routes
 export const ArticleRoutes = (app, dataSources) => {
   app.get('/articleBySlug/:slug', async (req, res) => {
-    const article = await getArticleBySlug(dataSources, req.params.slug)
-    res.send(article)
+    try {
+      const article = await getArticleBySlug(dataSources, req.params.slug)
+      console.log(`[LOG][Article][articleBySlug][SUCESS] ${req.params.slug}`)
+
+      res.send(article)
+    } catch (e) {
+      console.log(`[LOG][Article][articleBySlug][ERROR]  ${req.params.slug}`)
+      console.log(e)
+    }
   })
 
   app.get('/articles', async (req, res) => {
-    const articles = await getAllArticles(dataSources)
-    res.send(articles)
+    try {
+      const articles = await getAllArticles(dataSources)
+      console.log('[LOG][Article][articles][SUCESS]')
+
+      res.send(articles)
+    } catch (e) {
+      console.log('[LOG][Article][articles][ERROR]')
+      console.log(e)
+    }
   })
 }
