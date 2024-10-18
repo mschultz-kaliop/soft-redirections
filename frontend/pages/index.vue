@@ -14,7 +14,6 @@
 
 <template>
   <div class="homepage">
-    HOME
     <ArticleList :articles="articles" />
   </div>
 </template>
