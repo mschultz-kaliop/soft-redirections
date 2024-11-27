@@ -1,4 +1,4 @@
-## Install
+## :wrench: Install
 
 ### CMS
 
@@ -46,7 +46,7 @@ docker-compose run soft-redirections-frontend npm ci
     - home
     - vue full
 
-## Start stack
+## :arrow_forward: Start stack
 
 ```
 docker compose up
