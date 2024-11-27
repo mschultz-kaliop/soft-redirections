@@ -1,9 +1,11 @@
 import express from 'express'
 import http from 'http'
+import bodyParser from 'body-parser'
 
 import PostgresDatasource from './datasource/postgres/PostgresDatasource'
 import StrapiDataSource from './datasource/strapi/StrapiDataSource'
 import { ArticleRoutes } from './api/Article'
+import { HandleRedirectionUrlController } from './controller/HandleRedirectionUrlController'
 
 async function start(){
   const app = express()
@@ -15,12 +17,29 @@ async function start(){
 
   const strapiDataSource = new StrapiDataSource()
 
+  const handleRedirectionUrlController = new HandleRedirectionUrlController()
+
+  app.use(
+    bodyParser.urlencoded({
+      extended: true
+    })
+  )
+  app.use(bodyParser.json())
+
   //////////////
   // Routes
   app.get('/debug', (_req, res) => {
     res.send('Welcome to the server')
   })
+  
   ArticleRoutes(app, { strapiDataSource })
+  
+  app.post(
+    '/rest/handle-redirection-url',
+    handleRedirectionUrlController.handleRedirectionUrl.bind(
+      handleRedirectionUrlController
+    )
+  )
 
   await new Promise<void>(resolve =>
     httpServer.listen(

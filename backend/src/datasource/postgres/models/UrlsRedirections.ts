@@ -5,7 +5,7 @@ interface UrlsRedirectionsAttributes {
   source: string;
   redirection: string;
   code: string;
-  contentful_content_id: string;
+  strapi_content_id: string;
   updatedAt?: Date;
 }
 
@@ -16,7 +16,7 @@ export default (sequelize: Sequelize) => {
     public source!: string;
     public redirection!: string;
     public code!: string;
-    public contentful_content_id!: string;
+    public strapi_content_id!: string;
     public updatedAt!: Date;
   }
 
@@ -39,7 +39,7 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.STRING(3),
         allowNull: false,
       },
-      contentful_content_id: {
+      strapi_content_id: {
         type: DataTypes.STRING,
         allowNull: false,
       },

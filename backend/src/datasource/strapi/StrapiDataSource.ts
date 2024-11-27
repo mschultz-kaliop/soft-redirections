@@ -45,4 +45,14 @@ export default class StrapiDataSource extends RESTDataSource {
   ): Promise<T[]>  {
     return this.get(`api/${contentType}`)
   }
+
+  /**
+   * Get content for a content type and id
+   */
+  async getOneCollectionContentById<T>(
+    contentType: string,
+    id: string
+  ): Promise<T[]>  {
+    return this.get(`api/${contentType}/${id}`)
+  }
 }
