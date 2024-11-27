@@ -6,18 +6,18 @@ RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev l
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /opt/
+WORKDIR /usr/
 COPY package.json package-lock.json ./
 
 RUN npm install -g node-gyp
 RUN npm config set fetch-retry-maxtimeout 600000 -g && npm ci
 
-ENV PATH=/opt/node_modules/.bin:$PATH
+ENV PATH=/usr/node_modules/.bin:$PATH
 
-WORKDIR /opt/app
+WORKDIR /usr/app
 COPY . .
 
-RUN chown -R node:node /opt/app
+RUN chown -R node:node /usr/app
 USER node
 
 RUN ["npm", "run", "build"]

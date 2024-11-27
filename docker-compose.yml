@@ -17,7 +17,7 @@ services:
     image: strapi:latest
     env_file: ./cms/.env
     volumes:
-      - ./cms/:/opt/app
+      - ./cms/:/usr/src/app
     ports:
       - "1337:1337"
     networks:
