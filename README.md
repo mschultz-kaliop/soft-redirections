@@ -45,3 +45,21 @@ docker-compose run soft-redirections-frontend npm ci
     - design
     - home
     - vue full
+
+## Start stack
+
+```
+docker compose up
+```
+
+> [!NOTE]  
+> In case of following error : 
+>```
+>soft-redirections-frontend      |  ERROR  [nitro] [uncaughtException] listen EADDRINUSE: address already in use /tmp/nitro/worker-99-1.sock
+>```
+>
+> run this command : 
+>```
+>docker compose up --force-recreate
+>```
+>
