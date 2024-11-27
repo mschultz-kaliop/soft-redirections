@@ -1,12 +1,17 @@
 import express from 'express'
 import http from 'http'
 
-import StrapiDataSource from './datasource/StrapiDataSource'
+import PostgresDatasource from './datasource/postgres/PostgresDatasource'
+import StrapiDataSource from './datasource/strapi/StrapiDataSource'
 import { ArticleRoutes } from './api/Article'
 
 async function start(){
   const app = express()
   const httpServer = http.createServer(app)
+
+  const postgresDatasource = new PostgresDatasource()
+  await postgresDatasource.authenticate()
+  await postgresDatasource.models.UrlsRedirections.sync({ alter: true })
 
   const strapiDataSource = new StrapiDataSource()
 

@@ -7,7 +7,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - soft-redirections-sql-data:/var/lib/postgresql/data/
+      - soft-redirections-cms-sql-data:/var/lib/postgresql/data/
     networks:
       - soft-redirections-network
 
@@ -36,6 +36,21 @@ services:
     networks:
       - soft-redirections-network
 
+  soft-redirections-backend-postgres:
+    container_name: soft-redirections-backend-postgres
+    image: postgres:14.3-alpine
+    platform: linux/amd64
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=backend
+    ports:
+      - '5433:5433'
+    volumes:
+      - soft-redirections-backend-sql-data:/var/lib/postgresql/data/
+    networks:
+      - soft-redirections-network
+
   soft-redirections-frontend:
     container_name: soft-redirections-frontend
     build: ./frontend
@@ -48,7 +63,8 @@ services:
       - soft-redirections-network
 
 volumes:
-  soft-redirections-sql-data:
+  soft-redirections-cms-sql-data:
+  soft-redirections-backend-sql-data:
 
 networks:
   soft-redirections-network:

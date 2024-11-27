@@ -1,4 +1,4 @@
-import StrapiDataSource from '../datasource/StrapiDataSource'
+import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
 
 //////////////
 // Types
