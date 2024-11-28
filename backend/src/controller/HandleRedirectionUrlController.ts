@@ -100,31 +100,25 @@ class HandleRedirectionUrlController {
   }
 
   /**
-   * Get existing slug for content in ElasticSearch
+   * Get existing slug for content in table urls_redirections
    * 
    * @param indexName 
    * @param strapiId 
    * @returns 
    */
   async getExistingSlug (indexName: string, strapiId: string): Promise<string | null> {
-    // TODO check in DB instead elasticsearch
-    // const exists = await this.elasticsearchDatasource.client.search({
-    //   index: indexName,
-    //   body: {
-    //     query: {
-    //       match: {
-    //         strapi_content_id: strapiId
-    //       }
-    //     }
-    //   }
-    // })
+    const exists = await this.postgresDatasource.models.UrlsRedirections.findAll({
+      where: {
+        strapi_content_id: strapiId
+      },
+      limit: 1
+    })
 
-    // if (exists.body && exists.body.hits && exists.body.hits.hits.length > 0) {
-    //   return '/' + exists.body.hits.hits[0]._source.slug
-    // }
+    if (exists.length > 0) {
+      return exists[0].redirection
+    }
 
-    // return null
-    return '/test-article-2'
+    return null
   }
 
   /**
@@ -212,6 +206,10 @@ class HandleRedirectionUrlController {
             finalSlug,
             existingSlug
           )
+        } else {
+          console.log(
+            `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][INFO] do nothing because source ${existingSlug} and redirection ${finalSlug} are the same`
+          )  
         }
       } else {
         console.log(
