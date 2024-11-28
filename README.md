@@ -1,6 +1,6 @@
 ## :wrench: Install
 
-### CMS
+### :pencil: CMS
 
 Copy/paste `.env.example` to `.env` and fill values needed
 
@@ -19,7 +19,7 @@ docker-compose run soft-redirections-cms npm ci
     -  script to init data ?
     - config webhook et voir si on peut les exporter dans le config-sync pour les avoir au setup du projet
 
-### Backend
+### :factory: Backend
 
 Copy/paste `.env.example` to `.env` and fill values needed
 
@@ -32,7 +32,7 @@ docker-compose run soft-redirections-backend npm ci
     - installer graphql ?
     - codegen (si graphql)
 
-### Frontend
+### :art: Frontend
 
 Copy/paste `.env.example` to `.env` and fill values needed
 
@@ -53,7 +53,7 @@ docker compose up
 ```
 
 > 
->:bangbang: **NOTE**  
+>**:bangbang: NOTE**  
 >In case of following error : 
 >```
 >soft-redirections-frontend      |  ERROR  [nitro] [uncaughtException] listen EADDRINUSE: address already in use /tmp/nitro/worker-99-1.sock
