@@ -15,13 +15,13 @@ class HandleRedirectionUrlController {
   /**
    * Create and update redirections rules in database
    * 
-   * @param strapiId 
+   * @param documentId 
    * @param finalSlug 
    * @param existingSlug 
    * @param type 
    */
   async createAndUpdateRedirections (
-    strapiId: string,
+    documentId: string,
     finalSlug: string,
     existingSlug: string,
     type: string | null = null
@@ -31,7 +31,7 @@ class HandleRedirectionUrlController {
       source: existingSlug,
       redirection: finalSlug,
       code: '301',
-      strapi_content_id: strapiId,
+      strapi_content_id: documentId,
       updatedAt: new Date()
     })
 
@@ -39,7 +39,7 @@ class HandleRedirectionUrlController {
     const searchExistingRedirections =
       await this.postgresDatasource.models.UrlsRedirections.findAll({
         where: {
-          strapi_content_id: strapiId
+          strapi_content_id: documentId
         }
       })
 
@@ -82,34 +82,20 @@ class HandleRedirectionUrlController {
     }
 
     console.log(
-      `[LOG][HandleRedirectionUrlController][createAndUpdateRedirections][SUCCESS] successfully created/updated redirections rules for ${strapiId}`
+      `[LOG][HandleRedirectionUrlController][createAndUpdateRedirections][SUCCESS] successfully created/updated redirections rules for ${documentId}`
     )
-  }
-
-  /**
-   * Get ElasticSearch index name from a content type
-   * 
-   * @param type 
-   * @returns 
-   */
-  getIndexName (type: string): string | null {
-    const indexMapping: Record<string, string> = {
-      article: 'articles',
-    }
-    return indexMapping[type] || null
   }
 
   /**
    * Get existing slug for content in table urls_redirections
    * 
-   * @param indexName 
-   * @param strapiId 
+   * @param documentId 
    * @returns 
    */
-  async getExistingSlug (indexName: string, strapiId: string): Promise<string | null> {
+  async getExistingSlug (documentId: string): Promise<string | null> {
     const exists = await this.postgresDatasource.models.UrlsRedirections.findAll({
       where: {
-        strapi_content_id: strapiId
+        strapi_content_id: documentId
       },
       limit: 1
     })
@@ -174,22 +160,16 @@ class HandleRedirectionUrlController {
     console.log(req.body)
     console.log('#####################################################')
 
-    const { strapiId, type } = req.body
+    const { documentId } = req.body.entry
 
     try {
       await this.postgresDatasource.authenticate()
-      const indexName = this.getIndexName(type)
 
       // TODO get Strapi entry by id
-      const contentFromStrapi = await this.strapiDatasource.getOneCollectionContentById<Article>('articles', strapiId)
-      console.log('contentFromStrapi', contentFromStrapi)
-      // const contentFromContentful =
-      //   await this.contentfulDatasource.getEntryById(contentfulId, 2)
+      const contentFromStrapi = await this.strapiDatasource.getOneCollectionContentById<Article>('articles', documentId)
 
       const finalSlug = await this.getFinalSlug(contentFromStrapi)
-      console.log('finalSlug', finalSlug)
-      const existingSlug = await this.getExistingSlug(indexName, strapiId)
-      console.log('existingSlug', existingSlug)
+      const existingSlug = await this.getExistingSlug(documentId)
 
       const alreadyExistRedirection = await this.postgresDatasource.models.UrlsRedirections.findAll({
         where: {
@@ -202,7 +182,7 @@ class HandleRedirectionUrlController {
       if (alreadyExistRedirection.length === 0) {
         if (existingSlug && finalSlug !== existingSlug) {
           await this.createAndUpdateRedirections(
-            strapiId,
+            documentId,
             finalSlug,
             existingSlug
           )
@@ -218,20 +198,20 @@ class HandleRedirectionUrlController {
       }
 
       console.log(
-        `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][SUCCESS] successfully handled redirections rules for ${strapiId}`
+        `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][SUCCESS] successfully handled redirections rules for ${documentId}`
       )
 
       res.send({
-        success: `Successfully handled redirections rules for ${strapiId}`
+        success: `Successfully handled redirections rules for ${documentId}`
       })
     } catch (error) {
       console.log(
-        `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][ERROR] while trying to create/update redirections rules for ${strapiId}`
+        `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][ERROR] while trying to create/update redirections rules for ${documentId}`
       )
       console.log(error)
 
       res.send({
-        error: `Error while create/update redirections rules for ${strapiId}`
+        error: `Error while create/update redirections rules for ${documentId}`
       })
     }
   }
