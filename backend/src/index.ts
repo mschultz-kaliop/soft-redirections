@@ -1,6 +1,7 @@
 import express from 'express'
 import http from 'http'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 
 import PostgresDatasource from './datasource/postgres/PostgresDatasource'
 import StrapiDataSource from './datasource/strapi/StrapiDataSource'
@@ -25,6 +26,7 @@ async function start(){
     })
   )
   app.use(bodyParser.json())
+  app.use(cors({ origin: '*' }))
 
   //////////////
   // Routes

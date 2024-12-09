@@ -9,9 +9,12 @@ declare module "#app" {
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = nuxtApp.$config
+  const baseURL: string = import.meta.env.SSR
+    ? config.apiBackendHost
+    : config.public.apiBackendHost;
 
   const axiosInstance = axios.create({
-    baseURL: config.public.httpHost as string
+    baseURL
   })
 
   return {
