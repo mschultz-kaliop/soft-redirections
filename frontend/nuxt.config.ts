@@ -2,8 +2,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   runtimeConfig: {
+    apiBackendHost: '',
     public: {
-      httpHost: 'http://soft-redirections-backend:8080'
+      apiBackendHost: ''
     }
   },
 

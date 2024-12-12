@@ -16,8 +16,8 @@ docker-compose run soft-redirections-cms npm ci
 - Create an API token from backoffice settings and copy/paste it in backend .env file (CMS_CDA_TOKEN)
 
 - RAF cms : 
-    -  script to init data ?
-    - config webhook et voir si on peut les exporter dans le config-sync pour les avoir au setup du projet
+  -  script to init data ?
+  - config webhook et voir si on peut les exporter dans le config-sync pour les avoir au setup du projet
 
 ### :factory: Backend
 
@@ -29,8 +29,8 @@ docker-compose run soft-redirections-backend npm ci
 ```
 
 - RAF backend : 
-    - installer graphql ?
-    - codegen (si graphql)
+  - clean code
+  - clean typescript
 
 ### :art: Frontend
 
@@ -43,8 +43,7 @@ docker-compose run soft-redirections-frontend npm ci
 
 - RAF frontend :
     - design
-    - home
-    - vue full
+    - code redirection
 
 ## :arrow_forward: Start stack
 
