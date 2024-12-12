@@ -16,14 +16,17 @@ services:
     build: ./cms
     image: strapi:latest
     env_file: ./cms/.env
+    user: ${FIXUID:-1000}:${FIXGID:-1000}
     volumes:
-      - ./cms/:/usr/src/app
+      - ./cms:/usr/src/app
     ports:
       - "1337:1337"
     networks:
       - soft-redirections-network
     depends_on:
       - soft-redirections-cms-postgres
+      - soft-redirections-backend-postgres
+    command: npm run develop
 
   soft-redirections-backend:
     container_name: soft-redirections-backend
@@ -35,6 +38,7 @@ services:
       - ./backend:/usr/src/app
     networks:
       - soft-redirections-network
+    command: npm run dev
 
   soft-redirections-backend-postgres:
     container_name: soft-redirections-backend-postgres
@@ -61,6 +65,7 @@ services:
       - ./frontend:/usr/src/app
     networks:
       - soft-redirections-network
+    command: npm run dev
 
 volumes:
   soft-redirections-cms-sql-data:
