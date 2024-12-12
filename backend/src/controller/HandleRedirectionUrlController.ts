@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
 import PostgresDatasource from '../datasource/postgres/PostgresDatasource';
-import { Article } from '../api/Article';
+import { Article, ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_NAME } from '../api/Article';
 
 class HandleRedirectionUrlController {
   private strapiDatasource: StrapiDataSource;
@@ -18,13 +18,11 @@ class HandleRedirectionUrlController {
    * @param documentId 
    * @param finalSlug 
    * @param existingSlug 
-   * @param type 
    */
   async createAndUpdateRedirections (
     documentId: string,
     finalSlug: string,
-    existingSlug: string,
-    type: string | null = null
+    existingSlug: string
   ): Promise<void> {
     // create redirection rule from last to new slug
     await this.postgresDatasource.models.UrlsRedirections.create({
@@ -110,11 +108,16 @@ class HandleRedirectionUrlController {
   /**
    * Get final slug formatted function of content type
    * 
+   * @param type 
    * @param contentFromStrapi 
    * @returns 
    */
-  async getFinalSlug (contentFromStrapi: any): Promise<string> {
+  async getFinalSlug (type: string, contentFromStrapi: any): Promise<string> {
     let finalSlug = contentFromStrapi.data.slug
+
+    if (type === ARTICLE_CONTENT_TYPE) {
+      finalSlug = `${type}/${contentFromStrapi.data.slug}`
+    }
 
     return `/${finalSlug}`
   }
@@ -160,15 +163,15 @@ class HandleRedirectionUrlController {
     console.log(req.body)
     console.log('#####################################################')
 
+    const { model } = req.body
     const { documentId } = req.body.entry
 
     try {
       await this.postgresDatasource.authenticate()
 
-      // TODO get Strapi entry by id
-      const contentFromStrapi = await this.strapiDatasource.getOneCollectionContentById<Article>('articles', documentId)
+      const contentFromStrapi = await this.strapiDatasource.getOneCollectionContentById<Article>(ARTICLE_CONTENT_TYPE_NAME, documentId)
 
-      const finalSlug = await this.getFinalSlug(contentFromStrapi)
+      const finalSlug = await this.getFinalSlug(model, contentFromStrapi)
       const existingSlug = await this.getExistingSlug(documentId)
 
       const alreadyExistRedirection = await this.postgresDatasource.models.UrlsRedirections.findAll({
@@ -178,9 +181,9 @@ class HandleRedirectionUrlController {
         }
       })
 
-      // we continue redirection process only if same redirection rule doesn't already exist in database to avoid duplicates
+      // we continue redirection process only if same redirection rule doesn't already exist in database to avoid duplicates or if source is null (interpreted as a content creation)
       if (alreadyExistRedirection.length === 0) {
-        if (existingSlug && finalSlug !== existingSlug) {
+        if (finalSlug !== existingSlug) {
           await this.createAndUpdateRedirections(
             documentId,
             finalSlug,

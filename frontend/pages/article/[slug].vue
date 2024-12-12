@@ -10,6 +10,13 @@
 
     return response.data
   })
+
+  if (!article.value) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Page Not Found'
+    })
+  }
 </script>
 
 <template>

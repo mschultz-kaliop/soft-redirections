@@ -11,18 +11,19 @@ export interface Article {
 
 //////////////
 // Consts
-const CONTENT_TYPE_NAME = 'articles'
+export const ARTICLE_CONTENT_TYPE = 'article'
+export const ARTICLE_CONTENT_TYPE_NAME = 'articles'
 
 //////////////
 // Funcs
 const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource })=> {
   const { strapiDataSource } = dataSources
-  return strapiDataSource.getCollectionContents<Article>(CONTENT_TYPE_NAME)
+  return strapiDataSource.getCollectionContents<Article>(ARTICLE_CONTENT_TYPE_NAME)
 }
 
 const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDataSource }, slug: string) => {
   const { strapiDataSource } = dataSources
-  return strapiDataSource.getOneCollectionContentBySlug<Article>(CONTENT_TYPE_NAME, slug)
+  return strapiDataSource.getOneCollectionContentBySlug<Article>(ARTICLE_CONTENT_TYPE_NAME, slug)
 }
 
 //////////////
@@ -37,6 +38,7 @@ export const ArticleRoutes = (app, dataSources) => {
     } catch (e) {
       console.log(`[LOG][Article][articleBySlug][ERROR]  ${req.params.slug}`)
       console.log(e)
+      res.status(404).send('Not found')
     }
   })
 
@@ -49,6 +51,7 @@ export const ArticleRoutes = (app, dataSources) => {
     } catch (e) {
       console.log('[LOG][Article][articles][ERROR]')
       console.log(e)
+      res.status(404).send('Not found')
     }
   })
 }

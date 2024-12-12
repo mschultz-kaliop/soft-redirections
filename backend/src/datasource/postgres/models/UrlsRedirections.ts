@@ -2,7 +2,7 @@ import { Model, DataTypes, Sequelize } from 'sequelize';
 
 interface UrlsRedirectionsAttributes {
   id?: number;
-  source: string;
+  source?: string;
   redirection: string;
   code: string;
   strapi_content_id: string;
@@ -29,7 +29,7 @@ export default (sequelize: Sequelize) => {
       },
       source: {
         type: DataTypes.STRING(2048),
-        allowNull: false,
+        allowNull: true,
       },
       redirection: {
         type: DataTypes.STRING(2048),
