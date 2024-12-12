@@ -14,18 +14,6 @@ export interface Article {
 const CONTENT_TYPE_NAME = 'articles'
 
 //////////////
-// Funcs
-const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource })=> {
-  const { strapiDataSource } = dataSources
-  return strapiDataSource.getCollectionContents<Article>(CONTENT_TYPE_NAME)
-}
-
-const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDataSource }, slug: string) => {
-  const { strapiDataSource } = dataSources
-  return strapiDataSource.getOneCollectionContentBySlug<Article>(CONTENT_TYPE_NAME, slug)
-}
-
-//////////////
 // Routes
 export const ArticleRoutes = (app, dataSources) => {
   app.get('/articleBySlug/:slug', async (req, res) => {
@@ -51,4 +39,16 @@ export const ArticleRoutes = (app, dataSources) => {
       console.log(e)
     }
   })
+}
+
+//////////////
+// Funcs
+const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource })=> {
+  const { strapiDataSource } = dataSources
+  return strapiDataSource.getCollectionContents<Article>(CONTENT_TYPE_NAME)
+}
+
+const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDataSource }, slug: string) => {
+  const { strapiDataSource } = dataSources
+  return strapiDataSource.getOneCollectionContentBySlug<Article>(CONTENT_TYPE_NAME, slug)
 }
