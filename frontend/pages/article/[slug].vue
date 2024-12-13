@@ -5,18 +5,12 @@
   const route = useRoute()
   const articleSlug = computed(() => route.params.slug)
 
-  const { data: article } = await useAsyncData(`article-${articleSlug.value}`, async () => {
+  const { data: article, error } = await useAsyncData(`article-${articleSlug.value}`, async () => {
     const response = await $axios.get<Article>(`/articleBySlug/${articleSlug.value}`)
 
     return response.data
   })
-
-  if (!article.value) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: 'Page Not Found'
-    })
-  }
+  useApiError(error.value)
 </script>
 
 <template>
