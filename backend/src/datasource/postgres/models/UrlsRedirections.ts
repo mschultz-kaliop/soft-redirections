@@ -1,21 +1,12 @@
 import { Model, DataTypes, Sequelize } from 'sequelize'
 
-//////////////
-// Types
-interface UrlsRedirectionsAttributes {
-  id?: number
-  source?: string
-  redirection: string
-  code: string
-  strapi_content_id: string
-  updatedAt?: Date
-}
+import { Redirection } from '../../../types/redirection'
 
 //////////////
 // Class
 export default (sequelize: Sequelize) => {
-  class UrlsRedirections extends Model<UrlsRedirectionsAttributes>
-    implements UrlsRedirectionsAttributes {
+  class UrlsRedirections extends Model<Redirection>
+    implements Redirection {
     public id!: number
     public source!: string
     public redirection!: string

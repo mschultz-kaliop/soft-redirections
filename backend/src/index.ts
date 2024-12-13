@@ -6,6 +6,7 @@ import cors from 'cors'
 import PostgresDatasource from './datasource/postgres/PostgresDatasource'
 import StrapiDataSource from './datasource/strapi/StrapiDataSource'
 import { ArticleRoutes } from './api/Article'
+import { RedirectionRoutes } from './api/Redirection'
 import { HandleRedirectionUrlController } from './controller/HandleRedirectionUrlController'
 
 async function start(){
@@ -41,6 +42,7 @@ async function start(){
   )
 
   ArticleRoutes(app, { strapiDataSource })
+  RedirectionRoutes(app, { postgresDatasource })
 
   //////////////
   // Server

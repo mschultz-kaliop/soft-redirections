@@ -3,7 +3,8 @@ import { Request, Response } from 'express'
 import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
 import PostgresDatasource from '../datasource/postgres/PostgresDatasource'
 
-import { Article, ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_NAME } from '../api/Article'
+import { Article } from '../types/article'
+import { ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_PLURAL } from '../api/Article'
 
 class HandleRedirectionUrlController {
   private strapiDatasource: StrapiDataSource;
@@ -125,35 +126,6 @@ class HandleRedirectionUrlController {
   }
 
   /**
-   * Get redirections rules in database from a source url
-   * TODO a supprimer ??
-   * 
-   * @param req 
-   * @param res 
-   */
-  async getRedirections (req: Request, res: Response): Promise<void> {
-    const searchExistingRedirection =
-      await this.postgresDatasource.models.UrlsRedirections.findAll({
-        where: {
-          source: req.body.sourceUrl
-        }
-      })
-
-    const redirections = searchExistingRedirection.map((item) => {
-      return {
-        from: item.source,
-        to: item.redirection,
-        code: parseInt(item.code)
-      }
-    })
-
-    res.send({
-      success: `Successfully get redirections rules for ${req.body.sourceUrl}`,
-      redirections
-    })
-  }
-
-  /**
    * Handle redirection url creation/update
    * 
    * @param req 
@@ -166,7 +138,7 @@ class HandleRedirectionUrlController {
     try {
       await this.postgresDatasource.authenticate()
 
-      const contentFromStrapi = await this.strapiDatasource.getOneCollectionContentById<Article>(ARTICLE_CONTENT_TYPE_NAME, documentId)
+      const contentFromStrapi = await this.strapiDatasource.getOneCollectionContentById<Article>(ARTICLE_CONTENT_TYPE_PLURAL, documentId)
 
       const finalSlug = await this.getFinalSlug(model, contentFromStrapi)
       const existingSlug = await this.getExistingSlug(documentId)

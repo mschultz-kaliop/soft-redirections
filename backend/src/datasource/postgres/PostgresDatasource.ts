@@ -45,6 +45,16 @@ class PostgresDatasource extends RESTDataSource {
   private initModels(): void {
     this.models.UrlsRedirections = UrlsRedirections(this.sequelize)
   }
+
+  /**
+   * Get all element for a model
+   *
+   * @param model
+   * @param query
+   */
+  public findAll<T>(model: string, query: object = {}): Promise<T[]> {
+    return this.models[model].findAll(query)
+  }
 }
 
 export default PostgresDatasource

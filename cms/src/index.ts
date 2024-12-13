@@ -35,7 +35,7 @@ async function createAdminUser(strapi: Core.Strapi) {
       return
     }
 
-    const hashedPassword = await strapi.admin.services.auth.hashPassword('Admin1234')
+    const hashedPassword = await strapi.admin.services.auth.hashPassword('Admin1234!')
 
     const newAdmin = {
       email: 'admin@kaliop.com',

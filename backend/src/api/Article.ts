@@ -1,19 +1,13 @@
 import { Express } from 'express'
-import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
 
-//////////////
-// Types
-export interface Article {
-  id: number
-  title: string
-  slug: string
-  body: string
-}
+import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
+import { Article } from '../types/article'
 
 //////////////
 // Consts
+export const ARTICLE_ROUTE_PREFIX = 'article'
 export const ARTICLE_CONTENT_TYPE = 'article'
-export const ARTICLE_CONTENT_TYPE_NAME = 'articles'
+export const ARTICLE_CONTENT_TYPE_PLURAL = 'articles'
 
 //////////////
 // Routes
@@ -54,7 +48,7 @@ export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: Str
  */
 const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource })=> {
   const { strapiDataSource } = dataSources
-  return strapiDataSource.getCollectionContents<Article>(ARTICLE_CONTENT_TYPE_NAME)
+  return strapiDataSource.getCollectionContents<Article>(ARTICLE_CONTENT_TYPE_PLURAL)
 }
 
 /**
@@ -65,5 +59,5 @@ const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource 
  */
 const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDataSource }, slug: string) => {
   const { strapiDataSource } = dataSources
-  return strapiDataSource.getOneCollectionContentBySlug<Article>(ARTICLE_CONTENT_TYPE_NAME, slug)
+  return strapiDataSource.getOneCollectionContentBySlug<Article>(ARTICLE_CONTENT_TYPE_PLURAL, slug)
 }
