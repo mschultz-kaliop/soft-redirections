@@ -1,7 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response } from 'express'
+
 import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
-import PostgresDatasource from '../datasource/postgres/PostgresDatasource';
-import { Article, ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_NAME } from '../api/Article';
+import PostgresDatasource from '../datasource/postgres/PostgresDatasource'
+
+import { Article, ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_NAME } from '../api/Article'
 
 class HandleRedirectionUrlController {
   private strapiDatasource: StrapiDataSource;
@@ -53,11 +55,11 @@ class HandleRedirectionUrlController {
             await existingRedirection.save()
 
             console.log(
-              `[LOG][HandleRedirectionUrlController][createAndUpdateRedirections][UPDATE][SUCCESS] successfully updated existing redirection rule with redirection = ${finalSlug}`
+              `[BACKEND][LOG][HandleRedirectionUrlController][createAndUpdateRedirections][UPDATE][SUCCESS] Redirection rule updated with = ${finalSlug}`
             )
           } catch (error) {
             console.log(
-              `[LOG][HandleRedirectionUrlController][createAndUpdateRedirections][UPDATE][ERROR] can't update existing redirection rule with redirection = ${finalSlug}`
+              `[BACKEND][LOG][HandleRedirectionUrlController][createAndUpdateRedirections][UPDATE][ERROR] Redirection rule update failed = ${finalSlug}`
             )
             console.log(error)
           }
@@ -67,11 +69,11 @@ class HandleRedirectionUrlController {
             await existingRedirection.destroy()
 
             console.log(
-              `[LOG][HandleRedirectionUrlController][createAndUpdateRedirections][DELETE][SUCCESS] successfully removed existing redirection rule with source = ${finalSlug}`
+              `[BACKEND][LOG][HandleRedirectionUrlController][createAndUpdateRedirections][DELETE][SUCCESS] Redirection rule removed with = = ${finalSlug}`
             )
           } catch (error) {
             console.log(
-              `[LOG][HandleRedirectionUrlController][createAndUpdateRedirections][DELETE][ERROR] can't remove existing redirection rule with source = ${finalSlug}`
+              `[BACKEND][LOG][HandleRedirectionUrlController][createAndUpdateRedirections][DELETE][ERROR] Redirection rule remove failed = ${finalSlug}`
             )
             console.log(error)
           }
@@ -80,7 +82,7 @@ class HandleRedirectionUrlController {
     }
 
     console.log(
-      `[LOG][HandleRedirectionUrlController][createAndUpdateRedirections][SUCCESS] successfully created/updated redirections rules for ${documentId}`
+      `[BACKEND][LOG][HandleRedirectionUrlController][createAndUpdateRedirections][SUCCESS] ${documentId}`
     )
   }
 
@@ -124,6 +126,7 @@ class HandleRedirectionUrlController {
 
   /**
    * Get redirections rules in database from a source url
+   * TODO a supprimer ??
    * 
    * @param req 
    * @param res 
@@ -157,12 +160,6 @@ class HandleRedirectionUrlController {
    * @param res 
    */
   async handleRedirectionUrl (req: Request, res: Response): Promise<void>{
-    console.log(
-      '### [Redirection Handler - DEBUG] handleRedirectionUrl - body'
-    )
-    console.log(req.body)
-    console.log('#####################################################')
-
     const { model } = req.body
     const { documentId } = req.body.entry
 
@@ -191,17 +188,17 @@ class HandleRedirectionUrlController {
           )
         } else {
           console.log(
-            `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][INFO] do nothing because source ${existingSlug} and redirection ${finalSlug} are the same`
+            `[BACKEND][LOG][HandleRedirectionUrlController][handleRedirectionUrl][INFO] Source ${existingSlug} and redirection ${finalSlug} are the same`
           )  
         }
       } else {
         console.log(
-          `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][INFO] do nothing because redirection rule with source ${existingSlug} and redirection ${finalSlug} already exist`
+          `[BACKEND][LOG][HandleRedirectionUrlController][handleRedirectionUrl][INFO] Source ${existingSlug} and redirection ${finalSlug} already exist`
         )
       }
 
       console.log(
-        `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][SUCCESS] successfully handled redirections rules for ${documentId}`
+        `[BACKEND][LOG][HandleRedirectionUrlController][handleRedirectionUrl][SUCCESS] Redirection rule success = ${documentId}`
       )
 
       res.send({
@@ -209,9 +206,10 @@ class HandleRedirectionUrlController {
       })
     } catch (error) {
       console.log(
-        `[LOG][HandleRedirectionUrlController][handleRedirectionUrl][ERROR] while trying to create/update redirections rules for ${documentId}`
+        `[BACKEND][LOG][HandleRedirectionUrlController][handleRedirectionUrl][ERROR] Redirection rule failed = ${documentId}`
       )
       console.log(error)
+      console.log(req.body)
 
       res.send({
         error: `Error while create/update redirections rules for ${documentId}`
@@ -220,4 +218,4 @@ class HandleRedirectionUrlController {
   }
 }
 
-export { HandleRedirectionUrlController };
+export { HandleRedirectionUrlController }

@@ -1,20 +1,39 @@
 import { RESTDataSource, AugmentedRequest } from '@apollo/datasource-rest'
 import qs from 'qs'
 
+//////////////
+// Types
+interface ContentBySlug {
+  slug: string
+}
+
+interface ApiResponse<T> {
+  data: T[]
+}
+
+//////////////
+// Class
 export default class StrapiDataSource extends RESTDataSource {
   constructor() {
     super()
     this.baseURL = process.env.CMS_URL
   }
 
+  /**
+   * @param _path
+   * @param request
+   */
   override willSendRequest(_path: string, request: AugmentedRequest) {
     request.headers['authorization'] = `Bearer ${process.env.CMS_CDA_TOKEN}`
   }
 
   /**
    * Get content for a content type and slug
+   *
+   * @param contentType
+   * @param slug
    */
-  async getOneCollectionContentBySlug<T>(
+  async getOneCollectionContentBySlug<T extends ContentBySlug>(
     contentType: string,
     slug: string
   ): Promise<T> {
@@ -26,7 +45,7 @@ export default class StrapiDataSource extends RESTDataSource {
       }
     }
     const query = qs.stringify(options, { encodeValuesOnly: true })
-    const contentsBySlug = await this.get(`api/${contentType}?${query}`)
+    const contentsBySlug: ApiResponse<T> = await this.get(`api/${contentType}?${query}`)
 
     const index = contentsBySlug.data.findIndex(el => el.slug === slug)
 
@@ -39,6 +58,8 @@ export default class StrapiDataSource extends RESTDataSource {
 
   /**
    * Get all contents for a content type
+   *
+   * @param contentType
    */
   async getCollectionContents<T>(
     contentType: string
@@ -48,6 +69,9 @@ export default class StrapiDataSource extends RESTDataSource {
 
   /**
    * Get content for a content type and id
+   *
+   * @param contentType
+   * @param id
    */
   async getOneCollectionContentById<T>(
     contentType: string,

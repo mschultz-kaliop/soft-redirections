@@ -1,23 +1,27 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes, Sequelize } from 'sequelize'
 
+//////////////
+// Types
 interface UrlsRedirectionsAttributes {
-  id?: number;
-  source?: string;
-  redirection: string;
-  code: string;
-  strapi_content_id: string;
-  updatedAt?: Date;
+  id?: number
+  source?: string
+  redirection: string
+  code: string
+  strapi_content_id: string
+  updatedAt?: Date
 }
 
+//////////////
+// Class
 export default (sequelize: Sequelize) => {
   class UrlsRedirections extends Model<UrlsRedirectionsAttributes>
     implements UrlsRedirectionsAttributes {
-    public id!: number;
-    public source!: string;
-    public redirection!: string;
-    public code!: string;
-    public strapi_content_id!: string;
-    public updatedAt!: Date;
+    public id!: number
+    public source!: string
+    public redirection!: string
+    public code!: string
+    public strapi_content_id!: string
+    public updatedAt!: Date
   }
 
   UrlsRedirections.init(
@@ -55,7 +59,7 @@ export default (sequelize: Sequelize) => {
       charset: 'utf8',
       collate: 'utf8_general_ci',
     }
-  );
+  )
 
-  return UrlsRedirections;
-};
+  return UrlsRedirections
+}

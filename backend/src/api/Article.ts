@@ -1,3 +1,4 @@
+import { Express } from 'express'
 import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
 
 //////////////
@@ -16,28 +17,28 @@ export const ARTICLE_CONTENT_TYPE_NAME = 'articles'
 
 //////////////
 // Routes
-export const ArticleRoutes = (app, dataSources) => {
-  app.get('/articleBySlug/:slug', async (req, res) => {
+export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: StrapiDataSource }): void => {
+  app.get('/articleBySlug/:slug', async (req, res): Promise<void> => {
     try {
       const article = await getArticleBySlug(dataSources, req.params.slug)
-      console.log(`[LOG][Article][articleBySlug][SUCESS] ${req.params.slug}`)
+      console.log(`[BACKEND][LOG][Article][articleBySlug][SUCESS] ${req.params.slug}`)
 
       res.send(article)
     } catch (e) {
-      console.log(`[LOG][Article][articleBySlug][ERROR]  ${req.params.slug}`)
+      console.log(`[BACKEND][LOG][Article][articleBySlug][ERROR] ${req.params.slug}`)
       console.log(e)
       res.status(404).send('Not found')
     }
   })
 
-  app.get('/articles', async (req, res) => {
+  app.get('/articles', async (req, res): Promise<void> => {
     try {
       const articles = await getAllArticles(dataSources)
-      console.log('[LOG][Article][articles][SUCESS]')
+      console.log('[BACKEND][LOG][Article][articles][SUCESS]')
 
       res.send(articles)
     } catch (e) {
-      console.log('[LOG][Article][articles][ERROR]')
+      console.log('[BACKEND][LOG][Article][articles][ERROR]')
       console.log(e)
       res.status(404).send('Not found')
     }
@@ -46,11 +47,22 @@ export const ArticleRoutes = (app, dataSources) => {
 
 //////////////
 // Funcs
+/**
+ * Get all articles
+ *
+ * @param dataSources
+ */
 const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource })=> {
   const { strapiDataSource } = dataSources
   return strapiDataSource.getCollectionContents<Article>(ARTICLE_CONTENT_TYPE_NAME)
 }
 
+/**
+ * Get article by its slug
+ *
+ * @param dataSources
+ * @param slug
+ */
 const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDataSource }, slug: string) => {
   const { strapiDataSource } = dataSources
   return strapiDataSource.getOneCollectionContentBySlug<Article>(ARTICLE_CONTENT_TYPE_NAME, slug)
