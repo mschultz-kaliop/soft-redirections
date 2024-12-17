@@ -4,21 +4,9 @@ import { RESTDataSource } from '@apollo/datasource-rest'
 import UrlsRedirections from './models/UrlsRedirections'
 
 //////////////
-// Types
-interface Config {
-  database: {
-    database: string
-    username: string
-    password: string
-    host: string
-  }
-}
-
-//////////////
 // Class
 class PostgresDatasource extends RESTDataSource {
   public models: { [key: string]: any } = {}
-  private config: Config
   private readonly sequelize: Sequelize
 
   constructor() {

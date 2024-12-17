@@ -5,4 +5,8 @@ export interface Redirection {
   code: string
   strapi_content_id: string | null
   updatedAt: Date | null
+  // function for postgres instance
+  // update: () => Promise<void>
+  // save: () => Promise<void>
+  // destroy: () => Promise<void>
 }

@@ -12,6 +12,19 @@ export const ARTICLE_CONTENT_TYPE_PLURAL = 'articles'
 //////////////
 // Routes
 export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: StrapiDataSource }): void => {
+  app.get('/article/:id', async (req, res): Promise<void> => {
+    try {
+      const article = await getArticleById(dataSources, req.params.id)
+      console.log(`[BACKEND][LOG][Article][articleById][SUCESS] ${req.params.id}`)
+
+      res.send(article)
+    } catch (e) {
+      console.log(`[BACKEND][LOG][Article][articleById][ERROR] ${req.params.id}`)
+      console.log(e)
+      res.status(404).send('Not found')
+    }
+  })
+
   app.get('/articleBySlug/:slug', async (req, res): Promise<void> => {
     try {
       const article = await getArticleBySlug(dataSources, req.params.slug)
@@ -49,6 +62,17 @@ export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: Str
 const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource })=> {
   const { strapiDataSource } = dataSources
   return strapiDataSource.getCollectionContents<Article>(ARTICLE_CONTENT_TYPE_PLURAL)
+}
+
+/**
+ * Get article by its ID
+ *
+ * @param dataSources
+ * @param id
+ */
+const getArticleById = async (dataSources: { strapiDataSource: StrapiDataSource }, id: string) => {
+  const { strapiDataSource } = dataSources
+  return strapiDataSource.getOneCollectionContentById<Article>(ARTICLE_CONTENT_TYPE_PLURAL, id)
 }
 
 /**

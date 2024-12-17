@@ -5,15 +5,7 @@ import { Redirection } from '../../../types/redirection'
 //////////////
 // Class
 export default (sequelize: Sequelize) => {
-  class UrlsRedirections extends Model<Redirection>
-    implements Redirection {
-    public id!: number
-    public source!: string
-    public redirection!: string
-    public code!: string
-    public strapi_content_id!: string
-    public updatedAt!: Date
-  }
+  class UrlsRedirections extends Model<Redirection> {}
 
   UrlsRedirections.init(
     {

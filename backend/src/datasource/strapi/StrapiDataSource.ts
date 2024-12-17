@@ -3,7 +3,7 @@ import qs from 'qs'
 
 //////////////
 // Types
-interface ContentBySlug {
+export interface ContentBySlug {
   slug: string
 }
 
@@ -53,7 +53,7 @@ export default class StrapiDataSource extends RESTDataSource {
       throw new Error(`Content ${slug} doesn't exist`)
     }
 
-    return contentsBySlug.data[index]
+    return contentsBySlug?.data[index] ?? null
   }
 
   /**
@@ -64,7 +64,9 @@ export default class StrapiDataSource extends RESTDataSource {
   async getCollectionContents<T>(
     contentType: string
   ): Promise<T[]>  {
-    return this.get(`api/${contentType}`)
+    const contents = await this.get(`api/${contentType}`)
+
+    return contents?.data ?? null
   }
 
   /**
@@ -76,7 +78,9 @@ export default class StrapiDataSource extends RESTDataSource {
   async getOneCollectionContentById<T>(
     contentType: string,
     id: string
-  ): Promise<T[]>  {
-    return this.get(`api/${contentType}/${id}`)
+  ): Promise<T>  {
+    const content = await this.get(`api/${contentType}/${id}`)
+
+    return content?.data ?? null
   }
 }
