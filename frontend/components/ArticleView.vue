@@ -9,10 +9,10 @@
 
 <template>
   <section
-    class="article-list px-24 py-24"
+    class="article-view p-20"
   >
-    <h1 class="text-5xl font-bold text-center">{{ article.title }}</h1>
-    <div class="mt-24 px-24">
+    <h1 class="text-5xl font-bold lg:px-28">{{ article.title }}</h1>
+    <div class="mt-20 lg:px-28">
       <p>Slug : {{ article.slug }}</p>
     </div>
   </section>
