@@ -1,11 +1,16 @@
-import { Model, DataTypes, Sequelize } from 'sequelize'
-
-import { Redirection } from '../../../types/redirection'
+import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes } from 'sequelize'
 
 //////////////
 // Class
 export default (sequelize: Sequelize) => {
-  class UrlsRedirections extends Model<Redirection> {}
+  class UrlsRedirections extends Model<InferAttributes<UrlsRedirections>, InferCreationAttributes<UrlsRedirections>> {
+    declare id: number
+    declare source: string | null
+    declare redirection: string
+    declare code: string
+    declare strapi_content_id: string | null
+    declare updatedAt: Date | null
+  }
 
   UrlsRedirections.init(
     {

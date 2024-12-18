@@ -1,6 +1,4 @@
-import { Model } from 'sequelize'
-
-export interface Redirection extends Model {
+export interface Redirection {
   id: number
   source: string | null
   redirection: string

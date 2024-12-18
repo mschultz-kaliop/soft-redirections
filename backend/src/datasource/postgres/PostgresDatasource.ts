@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize, FindOptions } from 'sequelize'
 import { RESTDataSource } from '@apollo/datasource-rest'
 
 import UrlsRedirections from './models/UrlsRedirections'
@@ -40,7 +40,7 @@ class PostgresDatasource extends RESTDataSource {
    * @param model
    * @param query
    */
-  public findAll<T>(model: string, query: object = {}): Promise<T[]> {
+  public findAll<T>(model: string, query: FindOptions = {}): Promise<T[]> {
     return this.models[model].findAll(query)
   }
 }

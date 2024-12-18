@@ -11,6 +11,13 @@
     return response.data
   })
   useApiError(error.value)
+
+  // if (!article.value) {
+  //   throw createError({
+  //     statusCode: error?.statusCode ?? 500,
+  //     statusMessage: error?.statusMessage ?? 'An error occurred',
+  //   })
+  // }
 </script>
 
 <template>

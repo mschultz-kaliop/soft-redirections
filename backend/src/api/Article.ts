@@ -38,7 +38,7 @@ export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: Str
     }
   })
 
-  app.get('/articles', async (req, res): Promise<void> => {
+  app.get('/articles', async (_req, res): Promise<void> => {
     try {
       const articles = await getAllArticles(dataSources)
       console.log('[BACKEND][LOG][Article][articles][SUCESS]')

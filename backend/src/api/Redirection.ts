@@ -2,7 +2,7 @@ import { Express } from 'express'
 
 import PostgresDatasource from '../datasource/postgres/PostgresDatasource'
 import StrapiDataSource, { ContentBySlug } from '../datasource/strapi/StrapiDataSource'
-import { ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_PLURAL } from './Article'
+import { ARTICLE_ROUTE_PREFIX, ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_PLURAL } from './Article'
 import { Article } from '../types/article'
 import { Redirection } from '../types/redirection'
 
@@ -12,15 +12,29 @@ export const RedirectionRoutes = (app: Express, dataSources: {
   postgresDataSource: PostgresDatasource,
   strapiDataSource: StrapiDataSource
 }): void => {
-  app.get('/getRedirections/:slug', async (req, res): Promise<void> => {
+  app.get('/redirectionsBySlug/:slug', async (req, res): Promise<void> => {
     try {
       const { postgresDataSource } = dataSources
-      const redirections = await getRedirections(postgresDataSource, req.params.slug)
-      console.log('[BACKEND][LOG][Redirection][isOneRedirectionExists][SUCESS]')
+      const redirections = await getRedirectionsBySlug(postgresDataSource, decodeURIComponent(req.params.slug))
+      console.log('[BACKEND][LOG][Redirection][redirectionsBySlug][SUCESS]')
 
       res.send(redirections)
     } catch (e) {
-      console.log(`[BACKEND][LOG][Redirection][isOneRedirectionExists][ERROR] ${ req.params.slug }`)
+      console.log(`[BACKEND][LOG][Redirection][redirectionsBySlug][ERROR] ${ req.params.slug }`)
+      console.log(e)
+      res.status(404).send('Not found')
+    }
+  })
+
+  app.get('/redirections', async (req, res) => {
+    try {
+      const { postgresDataSource } = dataSources
+      const redirections = await getAllRedirections(postgresDataSource)
+      console.log('[BACKEND][LOG][Redirection][redirections][SUCESS]')
+
+      res.send(redirections)
+    } catch (e) {
+      console.log('[BACKEND][LOG][Redirection][redirections][ERROR]')
       console.log(e)
       res.status(404).send('Not found')
     }
@@ -89,13 +103,23 @@ export const RedirectionRoutes = (app: Express, dataSources: {
 //////////////
 // Funcs
 /**
- * Return true if a redirection exists for a slug, else return false
+ * Get all redirections corresponding to a source slug
  *
  * @param postgresDataSource
  * @param slug
  */
-const getRedirections = async (postgresDataSource: PostgresDatasource, slug: string) => {
+const getRedirectionsBySlug = async (postgresDataSource: PostgresDatasource, slug: string) => {
+  console.log(slug)
   return postgresDataSource.findAll<Redirection>('UrlsRedirections', { where: { source: slug }})
+}
+
+/**
+ * Get all redirections
+ *
+ * @param postgresDataSource
+ */
+const getAllRedirections = async (postgresDataSource: PostgresDatasource) => {
+  return postgresDataSource.findAll<Redirection>('UrlsRedirections')
 }
 
 /**
@@ -109,7 +133,7 @@ const getFinalSlug = <T extends ContentBySlug>(type: string, contentFromStrapi: 
   let finalSlug = contentFromStrapi.slug
 
   if (type === ARTICLE_CONTENT_TYPE) {
-    finalSlug = `${type}/${contentFromStrapi.slug}`
+    finalSlug = `${ARTICLE_ROUTE_PREFIX}/${contentFromStrapi.slug}`
   }
 
   return `/${finalSlug}`
@@ -172,12 +196,10 @@ const createAndUpdateRedirections = async (
     for (const existingRedirection of searchExistingRedirections) {
       if (existingRedirection.source !== finalSlug) {
         try {
-          // @ts-ignore
           await existingRedirection.update({
             redirection: finalSlug,
             updatedAt: new Date()
           })
-          // @ts-ignore
           await existingRedirection.save()
 
           console.log(
@@ -192,7 +214,6 @@ const createAndUpdateRedirections = async (
       } else {
         try {
           // remove redirection rule to the same slug to prevent redirection loop
-          // @ts-ignore
           await existingRedirection.destroy()
 
           console.log(

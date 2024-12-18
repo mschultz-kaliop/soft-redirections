@@ -4,9 +4,9 @@
   const { $axios } = useNuxtApp()
 
   const { data } = await useAsyncData('articles', async () => {
-    const response = await $axios.get<{ data: Article[] }>('/articles')
+    const response = await $axios.get<Article[]>('/articles')
 
-    return response.data.data
+    return response.data
   })
 
   const articles = computed(() => data.value ?? [])
