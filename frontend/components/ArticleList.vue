@@ -8,10 +8,10 @@
 </script>
 
 <template>
-  <section class="article-list text-center px-24 py-24">
-    <h1 class="text-5xl font-bold">ARTICLE LIST</h1>
+  <section class="article-list container p-20">
+    <h1 class="text-5xl font-bold lg:px-28">ARTICLE LIST</h1>
 
-    <div class="flex justify-evenly mt-24 px-24">
+    <div class="flex flex-wrap justify-evenly gap-8 mt-20">
       <div
         v-for="article in articles"
         :key="article.id"
@@ -22,7 +22,7 @@
           <p>Slug : {{ article.slug }}</p>
           <div class="card-actions justify-end">
             <NuxtLink :to="{ name: 'article-slug', params: { slug: article.slug } }">
-              <button class="btn btn-secondary">Read it</button>
+              <button class="btn btn-accent">Read it</button>
             </NuxtLink>
           </div>
         </div>

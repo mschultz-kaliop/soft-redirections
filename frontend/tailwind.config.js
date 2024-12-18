@@ -17,7 +17,7 @@ export default {
 
   daisyui: {
     themes: [
-      "sunset"
+      "night"
     ]
   }
 }
