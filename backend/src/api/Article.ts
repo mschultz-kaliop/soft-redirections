@@ -15,7 +15,7 @@ export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: Str
   app.get('/article/:id', async (req, res): Promise<void> => {
     try {
       const article = await getArticleById(dataSources, req.params.id)
-      console.log(`[BACKEND][LOG][Article][articleById][SUCESS] ${req.params.id}`)
+      console.log(`[BACKEND][LOG][Article][articleById][SUCCESS] ${req.params.id}`)
 
       res.send(article)
     } catch (e) {
@@ -28,7 +28,7 @@ export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: Str
   app.get('/articleBySlug/:slug', async (req, res): Promise<void> => {
     try {
       const article = await getArticleBySlug(dataSources, req.params.slug)
-      console.log(`[BACKEND][LOG][Article][articleBySlug][SUCESS] ${req.params.slug}`)
+      console.log(`[BACKEND][LOG][Article][articleBySlug][SUCCESS] ${req.params.slug}`)
 
       res.send(article)
     } catch (e) {
@@ -41,7 +41,7 @@ export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: Str
   app.get('/articles', async (_req, res): Promise<void> => {
     try {
       const articles = await getAllArticles(dataSources)
-      console.log('[BACKEND][LOG][Article][articles][SUCESS]')
+      console.log('[BACKEND][LOG][Article][articles][SUCCESS]')
 
       res.send(articles)
     } catch (e) {

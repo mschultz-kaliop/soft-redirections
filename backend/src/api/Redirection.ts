@@ -16,7 +16,7 @@ export const RedirectionRoutes = (app: Express, dataSources: {
     try {
       const { postgresDataSource } = dataSources
       const redirections = await getRedirectionsBySlug(postgresDataSource, decodeURIComponent(req.params.slug))
-      console.log('[BACKEND][LOG][Redirection][redirectionsBySlug][SUCESS]')
+      console.log('[BACKEND][LOG][Redirection][redirectionsBySlug][SUCCESS]')
 
       res.send(redirections)
     } catch (e) {
@@ -30,7 +30,7 @@ export const RedirectionRoutes = (app: Express, dataSources: {
     try {
       const { postgresDataSource } = dataSources
       const redirections = await getAllRedirections(postgresDataSource)
-      console.log('[BACKEND][LOG][Redirection][redirections][SUCESS]')
+      console.log('[BACKEND][LOG][Redirection][redirections][SUCCESS]')
 
       res.send(redirections)
     } catch (e) {

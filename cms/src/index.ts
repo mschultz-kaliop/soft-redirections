@@ -31,24 +31,22 @@ async function createAdminUser(strapi: Core.Strapi) {
   try {
     const existingAdmins = await adminService.exists()
     if (existingAdmins) {
-      console.log('[STRAPI][LOG][createAdminUser][SUCESS] Admin already exists')
+      console.log('[STRAPI][LOG][createAdminUser][SUCCESS] Admin already exists')
       return
     }
-
-    const hashedPassword = await strapi.admin.services.auth.hashPassword('Admin1234!')
 
     const newAdmin = {
       email: 'admin@kaliop.com',
       firstname: 'Super',
       lastname: 'Admin',
-      password: hashedPassword,
+      password: 'Admin1234!',
       isActive: true,
       roles: [ await roleService.getSuperAdmin() ],
     }
 
     await adminService.create(newAdmin)
 
-    console.log(`[STRAPI][LOG][createAdminUser][SUCESS] Admin created = ${ newAdmin.email }`)
+    console.log(`[STRAPI][LOG][createAdminUser][SUCCESS] Admin created = ${ newAdmin.email }`)
   } catch (e) {
     console.log(`[STRAPI][LOG][createAdminUser][ERROR]`)
     console.log(e)
@@ -62,7 +60,7 @@ async function createMockArticles(strapi: Core.Strapi) {
   try {
     const existingArticles = await articleService.find()
     if (existingArticles.results.length > 0) {
-      console.log('[STRAPI][LOG][createMockArticles][SUCESS] Articles already exist')
+      console.log('[STRAPI][LOG][createMockArticles][SUCCESS] Articles already exist')
       return
     }
 
@@ -98,7 +96,7 @@ async function createMockArticles(strapi: Core.Strapi) {
       await articleService.create({ data: article })
       console.log(`Article "${article.title}" created.`)
     }
-    console.log(`[STRAPI][LOG][createMockArticles][SUCESS] Ended`)
+    console.log(`[STRAPI][LOG][createMockArticles][SUCCESS] Ended`)
   } catch (e) {
     console.log(`[STRAPI][LOG][createMockArticles][ERROR]`)
     console.log(e)
