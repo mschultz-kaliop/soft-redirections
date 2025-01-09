@@ -9,8 +9,8 @@ Copy/paste `.env.example` to `.env` and fill values needed
 docker-compose run soft-redirections-cms npm ci
 ```
 
-- Create an API token from backoffice settings and copy/paste it in backend .env file (CMS_CDA_TOKEN)
-- Create a Webhook "Unlimited" and "Read Only" with url `http://soft-redirections-backend:8080/handleRedirectionUrl`
+- Create an API token (with "Unlimited" for duration and "Read Only" for type) from backoffice settings and copy/paste it in backend .env file (CMS_CDA_TOKEN)
+- Create a Webhook with url `http://soft-redirections-backend:8080/handleRedirectionUrl`
 
 
 ----------------------------------
