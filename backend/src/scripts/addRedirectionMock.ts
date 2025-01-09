@@ -26,7 +26,7 @@ const run = async () => {
       await postgresDataSource.models.UrlsRedirections.create({
         source: `/${ARTICLE_ROUTE_PREFIX}/${article.slug}-old`,
         redirection: `/${ARTICLE_ROUTE_PREFIX}/${article.slug}`,
-        code: '301',
+        code: 301,
         strapi_content_id: article.documentId,
         updatedAt: new Date()
       })

@@ -1,14 +1,16 @@
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
+import { H3Event } from 'h3'
+import { NitroAppPlugin } from 'nitropack'
 
-export default defineNitroPlugin((nitroApp) => {
+export default defineNitroPlugin((nitroApp: NitroAppPlugin) => {
   const config = useRuntimeConfig()
   const baseURL: string = config.apiBackendHost
 
-  const axiosInstance = axios.create({
+  const axiosInstance: AxiosInstance = axios.create({
     baseURL
   })
 
-  nitroApp.hooks.hook('beforeResponse', async (event, { body }) => {
+  nitroApp.hooks.hook('beforeResponse', async (event: H3Event, { body }) => {
     let params = new URLSearchParams(event.node.req.url)
     let path = params.get('/__nuxt_error?url')
 
@@ -21,7 +23,12 @@ export default defineNitroPlugin((nitroApp) => {
         const redirectionData = response?.data.pop() ?? null
 
         if (redirectionData) {
-          await sendRedirect(event, redirectionData.redirection, parseInt(redirectionData.code) || 307)
+          event.node.res.writeHead(
+            redirectionData.code || 307,
+            redirectionData.code === 301 ? 'Moved Permanently' : 'Temporary Redirect',
+            { Location: redirectionData.redirection }
+          )
+          event.node.res.end()
         }
       } catch (error) {
         console.warn('Failed to handle redirection', error)

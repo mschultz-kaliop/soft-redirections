@@ -178,7 +178,7 @@ const createAndUpdateRedirections = async (
   await postgresDataSource.models.UrlsRedirections.create({
     source: existingSlug,
     redirection: finalSlug,
-    code: '301',
+    code: 301,
     strapi_content_id: documentId,
     updatedAt: new Date()
   })
@@ -217,7 +217,7 @@ const createAndUpdateRedirections = async (
           await existingRedirection.destroy()
 
           console.log(
-            `[BACKEND][LOG][Redirection][createAndUpdateRedirections][DELETE][SUCCESS] Redirection rule removed with = = ${finalSlug}`
+            `[BACKEND][LOG][Redirection][createAndUpdateRedirections][DELETE][SUCCESS] Redirection rule removed with = ${finalSlug}`
           )
         } catch (error) {
           console.log(
