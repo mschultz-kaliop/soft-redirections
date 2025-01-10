@@ -1,9 +1,9 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { H3Event } from 'h3'
-import { NitroAppPlugin } from 'nitropack'
+import { NitroAppPlugin, NitroRuntimeConfig } from 'nitropack'
 
 export default defineNitroPlugin((nitroApp: NitroAppPlugin) => {
-  const config = useRuntimeConfig()
+  const config: NitroRuntimeConfig = useRuntimeConfig()
   const baseURL: string = config.apiBackendHost
 
   const axiosInstance: AxiosInstance = axios.create({
@@ -11,16 +11,16 @@ export default defineNitroPlugin((nitroApp: NitroAppPlugin) => {
   })
 
   nitroApp.hooks.hook('beforeResponse', async (event: H3Event, { body }) => {
-    let params = new URLSearchParams(event.node.req.url)
-    let path = params.get('/__nuxt_error?url')
+    let params: URLSearchParams = new URLSearchParams(event.node.req.url)
+    let path: string = params.get('/__nuxt_error?url')
 
     if (
       event.context.matchedRoute.path === '/__nuxt_error' &&
       params.get('statusCode') === '404'
     ) {
       try {
-        const response = await axiosInstance.get<Redirection[]>(`/redirectionsBySlug/${encodeURIComponent(path)}`)
-        const redirectionData = response?.data.pop() ?? null
+        const response: AxiosResponse = await axiosInstance.get<Redirection[]>(`/redirectionsBySlug/${encodeURIComponent(path)}`)
+        const redirectionData: Redirection = response?.data.pop() ?? null
 
         if (redirectionData) {
           event.node.res.writeHead(
