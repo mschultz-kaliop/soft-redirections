@@ -60,7 +60,7 @@ docker compose up
 
 
 ----------------------------------
-## :godmode: Scripts (run them from backend container)
+## :gift: Scripts (run them from backend container)
 
 To mock redirections in database
 
