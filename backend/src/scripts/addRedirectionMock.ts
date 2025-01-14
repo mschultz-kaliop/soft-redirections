@@ -1,5 +1,5 @@
 import PostgresDatasource from '../datasource/postgres/PostgresDatasource'
-import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
+import StrapiDatasource from '../datasource/strapi/StrapiDatasource'
 
 import { ARTICLE_ROUTE_PREFIX, ARTICLE_CONTENT_TYPE_PLURAL } from '../api/Article'
 import { Article } from '../types/article'
@@ -12,7 +12,7 @@ const run = async () => {
   const postgresDataSource = new PostgresDatasource()
   await postgresDataSource.authenticate()
   await postgresDataSource.models.UrlsRedirections.sync({ alter: true })
-  const strapiDataSource = new StrapiDataSource()
+  const strapiDataSource = new StrapiDatasource()
 
   try {
     if (process.argv.includes('--clear')) {
