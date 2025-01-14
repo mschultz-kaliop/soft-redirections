@@ -57,3 +57,19 @@ docker compose up
 >docker compose up --force-recreate
 >```
 >
+
+
+----------------------------------
+## :godmode: Scripts (run them from backend container)
+
+To mock redirections in database
+
+```
+npm run mock
+```
+
+To generate Nginx file
+
+```
+npm run gen-nginx
+```
