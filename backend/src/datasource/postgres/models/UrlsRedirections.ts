@@ -28,7 +28,7 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       code: {
-        type: DataTypes.STRING(3),
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       strapi_content_id: {

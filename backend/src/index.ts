@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 
 import PostgresDatasource from './datasource/postgres/PostgresDatasource'
-import StrapiDataSource from './datasource/strapi/StrapiDataSource'
+import StrapiDatasource from './datasource/strapi/StrapiDatasource'
 import { ArticleRoutes } from './api/Article'
 import { RedirectionRoutes } from './api/Redirection'
 
@@ -15,7 +15,7 @@ async function start(){
   const postgresDataSource = new PostgresDatasource()
   await postgresDataSource.authenticate()
   await postgresDataSource.models.UrlsRedirections.sync({ alter: true })
-  const strapiDataSource = new StrapiDataSource()
+  const strapiDataSource = new StrapiDatasource()
 
   app.use(
     bodyParser.urlencoded({

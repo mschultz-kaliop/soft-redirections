@@ -1,6 +1,6 @@
 import { Express } from 'express'
 
-import StrapiDataSource from '../datasource/strapi/StrapiDataSource'
+import StrapiDatasource from '../datasource/strapi/StrapiDatasource'
 import { Article } from '../types/article'
 
 //////////////
@@ -11,7 +11,7 @@ export const ARTICLE_CONTENT_TYPE_PLURAL = 'articles'
 
 //////////////
 // Routes
-export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: StrapiDataSource }): void => {
+export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: StrapiDatasource }): void => {
   app.get('/article/:id', async (req, res): Promise<void> => {
     try {
       const article = await getArticleById(dataSources, req.params.id)
@@ -59,7 +59,7 @@ export const ArticleRoutes = (app: Express, dataSources: { strapiDataSource: Str
  *
  * @param dataSources
  */
-const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource })=> {
+const getAllArticles = async (dataSources: { strapiDataSource: StrapiDatasource })=> {
   const { strapiDataSource } = dataSources
   return strapiDataSource.getCollectionContents<Article>(ARTICLE_CONTENT_TYPE_PLURAL)
 }
@@ -70,7 +70,7 @@ const getAllArticles = async (dataSources: { strapiDataSource: StrapiDataSource 
  * @param dataSources
  * @param id
  */
-const getArticleById = async (dataSources: { strapiDataSource: StrapiDataSource }, id: string) => {
+const getArticleById = async (dataSources: { strapiDataSource: StrapiDatasource }, id: string) => {
   const { strapiDataSource } = dataSources
   return strapiDataSource.getOneCollectionContentById<Article>(ARTICLE_CONTENT_TYPE_PLURAL, id)
 }
@@ -81,7 +81,7 @@ const getArticleById = async (dataSources: { strapiDataSource: StrapiDataSource 
  * @param dataSources
  * @param slug
  */
-const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDataSource }, slug: string) => {
+const getArticleBySlug = async (dataSources: { strapiDataSource: StrapiDatasource }, slug: string) => {
   const { strapiDataSource } = dataSources
   return strapiDataSource.getOneCollectionContentBySlug<Article>(ARTICLE_CONTENT_TYPE_PLURAL, slug)
 }

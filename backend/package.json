@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node ./src/index.ts",
-    "dev": "nodemon --ext \"ts,json,graphql\" --exec \"ts-node\" ./src/index.ts --legacy-watch"
+    "dev": "nodemon --ext \"ts,json,graphql\" --exec \"ts-node\" ./src/index.ts --legacy-watch",
+    "mock": "ts-node src/scripts/addRedirectionMock.ts",
+    "gen-nginx": "ts-node src/scripts/generateRedirectionNginxConf.ts"
   },
   "author": "",
   "license": "ISC",

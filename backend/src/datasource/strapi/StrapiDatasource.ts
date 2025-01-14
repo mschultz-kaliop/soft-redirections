@@ -13,7 +13,7 @@ interface ApiResponse<T> {
 
 //////////////
 // Class
-export default class StrapiDataSource extends RESTDataSource {
+export default class StrapiDatasource extends RESTDataSource {
   constructor() {
     super()
     this.baseURL = process.env.CMS_URL

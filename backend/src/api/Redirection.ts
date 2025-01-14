@@ -1,7 +1,7 @@
 import { Express } from 'express'
 
 import PostgresDatasource from '../datasource/postgres/PostgresDatasource'
-import StrapiDataSource, { ContentBySlug } from '../datasource/strapi/StrapiDataSource'
+import StrapiDatasource, { ContentBySlug } from '../datasource/strapi/StrapiDatasource'
 import { ARTICLE_ROUTE_PREFIX, ARTICLE_CONTENT_TYPE, ARTICLE_CONTENT_TYPE_PLURAL } from './Article'
 import { Article } from '../types/article'
 import { Redirection } from '../types/redirection'
@@ -10,7 +10,7 @@ import { Redirection } from '../types/redirection'
 // Routes
 export const RedirectionRoutes = (app: Express, dataSources: {
   postgresDataSource: PostgresDatasource,
-  strapiDataSource: StrapiDataSource
+  strapiDataSource: StrapiDatasource
 }): void => {
   app.get('/redirectionsBySlug/:slug', async (req, res): Promise<void> => {
     try {
@@ -178,7 +178,7 @@ const createAndUpdateRedirections = async (
   await postgresDataSource.models.UrlsRedirections.create({
     source: existingSlug,
     redirection: finalSlug,
-    code: '301',
+    code: 301,
     strapi_content_id: documentId,
     updatedAt: new Date()
   })
@@ -217,7 +217,7 @@ const createAndUpdateRedirections = async (
           await existingRedirection.destroy()
 
           console.log(
-            `[BACKEND][LOG][Redirection][createAndUpdateRedirections][DELETE][SUCCESS] Redirection rule removed with = = ${finalSlug}`
+            `[BACKEND][LOG][Redirection][createAndUpdateRedirections][DELETE][SUCCESS] Redirection rule removed with = ${finalSlug}`
           )
         } catch (error) {
           console.log(
