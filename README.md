@@ -57,7 +57,9 @@ docker compose up
 
 
 ----------------------------------
-## :gift: Scripts (run them from backend container)
+## :gift: Scripts
+
+:information_source: run them from backend container
 
 To mock redirections in database
 
