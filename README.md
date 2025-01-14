@@ -23,9 +23,6 @@ Copy/paste `.env.example` to `.env` and fill values needed
 docker-compose run soft-redirections-backend npm ci
 ```
 
-- RAF backend : 
-  - nginx conf generation
-
 
 ----------------------------------
 ### :art: Frontend
