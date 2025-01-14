@@ -43,7 +43,7 @@ docker compose up
 ```
 
 > 
->**:bangbang: NOTE**  
+>**:information_source: NOTE**  
 >In case of following error : 
 >```
 >soft-redirections-frontend      |  ERROR  [nitro] [uncaughtException] listen EADDRINUSE: address already in use /tmp/nitro/worker-99-1.sock
@@ -57,7 +57,7 @@ docker compose up
 
 
 ----------------------------------
-## :gift: Scripts
+## :black_joker: Cheat scripts
 
 :information_source: run them from backend container
 
