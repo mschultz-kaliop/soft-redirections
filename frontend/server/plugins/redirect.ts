@@ -1,8 +1,10 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { H3Event } from 'h3'
-import { NitroAppPlugin, NitroRuntimeConfig } from 'nitropack'
+import { NitroRuntimeConfig } from 'nitropack'
 
-export default defineNitroPlugin((nitroApp: NitroAppPlugin) => {
+import { Redirection } from '~/types/redirection'
+
+export default defineNitroPlugin((nitroApp) => {
   const config: NitroRuntimeConfig = useRuntimeConfig()
   const baseURL: string = config.apiBackendHost
 
@@ -12,10 +14,10 @@ export default defineNitroPlugin((nitroApp: NitroAppPlugin) => {
 
   nitroApp.hooks.hook('beforeResponse', async (event: H3Event, { body }) => {
     let params: URLSearchParams = new URLSearchParams(event.node.req.url)
-    let path: string = params.get('/__nuxt_error?url')
+    let path: string = params.get('/__nuxt_error?url') || ''
 
     if (
-      event.context.matchedRoute.path === '/__nuxt_error' &&
+      event.context.matchedRoute?.path === '/__nuxt_error' &&
       params.get('statusCode') === '404'
     ) {
       try {

@@ -35,12 +35,12 @@ async function createNginxConfFile(allRedirectionsUrls: Redirection[]): Promise<
       .map((route) => {
         if (route.source.startsWith('^')) {
           return `location ~ ${route.source} {
-    return ${route.code} ${route.redirection};
-}`
+              return ${route.code} ${route.redirection};
+          }`
         } else {
           return `location = ${route.source} {
-    return ${route.code} ${route.redirection};
-}`
+              return ${route.code} ${route.redirection};
+          }`
         }
       })
 
