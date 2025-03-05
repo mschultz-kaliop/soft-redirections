@@ -1,4 +1,4 @@
-## :wrench: Install
+# :wrench: Install
 
 ### :pencil: CMS
 
