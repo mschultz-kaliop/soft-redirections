@@ -1,6 +1,6 @@
 # :wrench: Install
 
-### :pencil: CMS
+## :pencil: CMS
 
 Copy/paste `.env.example` to `.env` and fill values needed
 
@@ -14,7 +14,7 @@ docker-compose run soft-redirections-cms npm ci
 
 
 ----------------------------------
-### :factory: Backend
+## :factory: Backend
 
 Copy/paste `.env.example` to `.env` and fill values needed
 
@@ -25,7 +25,7 @@ docker-compose run soft-redirections-backend npm ci
 
 
 ----------------------------------
-### :art: Frontend
+## :art: Frontend
 
 Copy/paste `.env.example` to `.env` and fill values needed
 
